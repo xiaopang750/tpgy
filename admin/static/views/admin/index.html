@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title><{$title}></title>
+<meta name="description" content="<{$details}>" />
+<meta name="keywords" content="<{$details}>"/>
+<meta name="publisher" content="<{$title}>">
+<meta name="copyright" content="Copyright (c) 2013 jia178.com All Rights Reserved." />
+<meta name ="robots" content ="all">
+<meta name="renderer" content="webkit">   
+
+<link rel="stylesheet" type="text/css" href="<{$smarty.const.STATIC_ROOT}>css/Common.css"/>     <!-- 公共样式表 -->
+<link rel="stylesheet" type="text/css" href="<{$smarty.const.STATIC_ROOT}>css/mobile-template.css"/>     <!-- 页面样式表 -->
+<script type='text/javascript'>
+	
+	
+var SITE_URL ='http://new.www.sns.com';
+var APPNAME   = 'admin';
+/* 按下F5时仅刷新iframe页面 */
+function inactiveF5(e) {
+	e=window.event||e;
+	var key = e.keyCode;
+	if (key == 116){
+		parent.MainIframe.location.reload();
+		if(document.all) {
+			e.keyCode = 0;
+			e.returnValue = false;
+		}else {
+			e.cancelBubble = true;
+			e.preventDefault();
+		}
+	}
+}
+
+function nof5() {
+    return ;
+	if(window.frames&&window.frames[0]) {
+		window.frames[0].focus();
+		for (var i_tem = 0; i_tem < window.frames.length; i_tem++) {
+			if (document.all) {
+				window.frames[i_tem].document.onkeydown = new Function("var e=window.frames[" + i_tem + "].event; if(e.keyCode==116){parent.MainIframe.location.reload();e.keyCode = 0;e.returnValue = false;};");
+			}else {
+				window.frames[i_tem].onkeypress = new Function("e", "if(e.keyCode==116){parent.MainIframe.location.reload();e.cancelBubble = true;e.preventDefault();}");
+			}
+		} //END for()
+	} //END if()
+}
+//模拟ts U函数 需要预先定义JS全局变量 SITE_URL 和 APPNAME
+
+var U =function(url,params){
+	var website = SITE_URL+'/index.php';
+	url = url.split('/');
+	if(url[0]=='' || url[0]=='@')
+		url[0] = APPNAME;
+	if (!url[1])
+		url[1] = 'Index';
+	if (!url[2])
+		url[2] = 'index';
+	website = website+'?app='+url[0]+'&mod='+url[1]+'&act='+url[2];
+	if(params){
+		params = params.join('&');
+		website = website + '&' + params;
+	}
+	return website;
+};
+
+function refresh() {
+	parent.MainIframe.location.reload();
+}
+
+function addTonav(name,url){
+	var appname = url.split('/');
+	$('.main_nav').append('<a href="#" onclick="gotoApp(this,\''+url+'\')" appname="'+appname[0]+'">'+name+'</a>');
+	$.post(U('admin/Home/addNav'),{appname:appname[0],url:url},function(){});}
+
+function removeFromNav(app){
+	$('.main_nav').find('a').each(function(){
+		if($(this).attr('appname') == app){
+			$(this).remove();
+			$.post(U('admin/Home/removeNav'),{appname:app},function(){});}
+	});
+}
+
+function gotoApp(obj,url){
+	
+	switchChannel('apps');
+
+	$('.main_nav').find('a').removeClass('on');
+
+	$(obj).addClass('on');
+
+	obj.className = 'on';
+
+	parent.MainIframe.location = U(url);
+
+}
+
+document.onkeydown=inactiveF5;
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="<{$smarty.const.STATIC_ROOT}>css/iconfont.css"/>     <!-- 图标字体样式表 -->
+</head>
+
+<body onload="nof5()">
+
+<!-- head  start -->
+<div class="head-box">
+	<div class="head-con">
+		<div class="logo-b">
+			<a href="javascript:;" alt="logo" class="logo_1"><img src="<{$smarty.const.STATIC_ROOT}>img/logo.png" alt="<{$title}>"></a>
+			<a href="javascript:;" alt="<{$title}>管理平台" class="logo_2 ml-8 mt-9"><{$title}>管理平台</a>
+		</div>
+		<div class="dot-r">
+			<span><a href="../admin/signOut" class="a-tui"><img src="<{$smarty.const.STATIC_ROOT}>img/tui.jpg" alt="退出"></a></span>
+			<span><a href="javascript:;" class="a-bang"><img src="<{$smarty.const.STATIC_ROOT}>img/bang.jpg" alt="帮助"></a></span>
+			<span><a href="javascript:;" class="a-si"><img src="<{$smarty.const.STATIC_ROOT}>img/si.jpg" alt="系统消息"></a></span>
+			<span><a href="" class="a-zhuo"><img src="<{$smarty.const.STATIC_ROOT}>img/zhuo.jpg" alt="回桌面"></a></span>
+		</div>
+	</div>
+</div>
+<!-- head  finish -->
+
+
+<!-- tree  start -->
+<div class="guide" id="MoGU">展开<br />菜单</div>
+<!-- <div class="guide" id="MoGU"></div> -->
+<div class="tree-box br" sc="tree-yin">
+	<ul class="tree-main mr-1" id="tree-box1">
+
+		<{assign var="i" value=0}>
+		<{if isset($backMenu.parent) and $backMenu.parent}>
+		<{foreach from=$backMenu.parent item=vo key=key}>
+		<li <{if $i eq 0}>class="cur1"<{/if}>>
+			<p>
+				<i class="iconfont"><a href="#"><{$vo.ico}></a></i>
+				<span><a href="javascript:;"><{$vo.module_name}></a></span>
+			</p>
+		</li>
+		<{$i=$i+1}>
+		<{/foreach}>
+		<{/if}>
+	</ul>
+	<ul class="tree-list" id="tree-box2" sc="tree-menu">
+		<{assign var="j" value=0}>
+		<{if isset($backMenu.children) and $backMenu.children}>
+			<{foreach from=$backMenu.children item=vvo key=keys}>
+
+				<li  <{if $j eq 0}>class="cur2"<{/if}>>
+					
+					<{if isset($vvo) and $vvo}>
+						<{foreach from=$vvo item=voo key=kes}>
+							<span><a href="../<{$voo.module}>/<{$voo.action}>" target='main' <{if $kes eq 0}>class="cur4"<{/if}> title="<{$voo.ico}>"><b class="b"></b><{$voo.module_name}></a></span>
+						
+						<{/foreach}>
+					<{/if}>
+				</li>
+			<{$j=$j+1}>
+			<{/foreach}>
+		<{/if}>
+		
+	</ul>
+<!-- qqservice   start -->
+<!-- <div class="qqservice">
+	<div class="kefu"><a href="javascript:;"><img src="<{$smarty.const.STATIC_ROOT}>img/kf.jpg" alt="在线客服"></a></div>
+	<span>太平公益</span>
+	<span>提供平台支持</span>
+	<span><{$smarty.const.SERVER_NAME}></span>
+</div> -->
+<!-- qqservice   finish -->
+</div>
+<!-- tree  finish -->
+
+
+<!-- contentRight start -->
+<div class="contentRight">
+	<div class="con-title">
+		<div class="title-inner">
+			<p class="p-title" id="p-title"><i class="iconfont">&#xe603;</i><span>用户桌面</span></p>
+			<div class="p-data" id="p-data">
+				<span>欢迎<b><{$username}></b>登录</span>
+				<span>星期<{$currentdate}></span>
+				<span><{$currenttime}></span>
+			</div>
+		</div>
+	</div>
+	<iframe src="<{$panel}>" id="main" name="main" frameborder="0" scrolling="yes" width="100%" height="100%" onload="nof5()"></iframe>
+</div>
+<!-- contentRight finish -->
+<div class="backTop"></div>
+<script language='javascript'>
+	
+function nof5() {
+    return ;
+	if(window.frames&&window.frames[0]) {
+		window.frames[0].focus();
+		for (var i_tem = 0; i_tem < window.frames.length; i_tem++) {
+			if (document.all) {
+				window.frames[i_tem].document.onkeydown = new Function("var e=window.frames[" + i_tem + "].event; if(e.keyCode==116){parent.main.location.reload();e.keyCode = 0;e.returnValue = false;};");
+			}else {
+				window.frames[i_tem].onkeypress = new Function("e", "if(e.keyCode==116){parent.main.location.reload();e.cancelBubble = true;e.preventDefault();}");
+			}
+		} //END for()
+	} //END if()
+}
+
+</script>
+<script type="text/javascript" src="<{$smarty.const.STATIC_ROOT}>/js/jquery-1.10.2.min.js"></script>      <!-- jquery库引入 -->
+<script type="text/javascript" src="<{$smarty.const.STATIC_ROOT}>js/mobile-template.js"></script>      <!-- 页面js1 -->
+<script type="text/javascript" src="<{$smarty.const.STATIC_ROOT}>js/device.min.js"></script>      <!-- device引入 -->
+<script type="text/javascript" src="<{$smarty.const.STATIC_ROOT}>js/mobile.js"></script>      <!-- 页面js2 -->
+</body>
+</html>

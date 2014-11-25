@@ -1,0 +1,70 @@
+<style type="text/css" media="screen">
+    .pop-movegroup {
+        width: 400px;
+        color: #535353;
+        padding: 15px;
+        }
+
+    .pop-movegroup dd {
+        line-height: 18px;
+        padding: 10px 20px;
+        overflow: hidden;
+        }
+    .center {
+        text-align: center;
+        }
+</style>
+
+
+<script type="text/javascript">
+
+
+  function doAuthRoleListsh(){
+        var url = "<{if isset($doAutoRoleList)}><{$doAutoRoleList}><{/if}>";
+        var rid = $('#rid').val();
+        var status = $("input[type=checkbox]:checked");
+		var len = status.length;
+		var expl = new Array();
+		for( var i=0;i<len;i++ ){
+			expl.push($(status[i]).val());
+		}
+		nid = expl.join(',');  
+        $.post(url,{rid:rid,nid:nid},function(res){
+            if(res.state == '20000'){
+                ui.success('角色权限分配成功！');
+                ui.box.close();
+                window.location.reload(true);
+                
+            }else{
+                ui.error('角色权限分配失败！');
+                ui.box.close();
+               window.location.reload(true);
+            }
+        },'json');
+    }
+ </script>
+
+<div  id='movegroup' class="pop-movegroup">
+<dl>
+
+    <{if isset($nodeback) and $nodeback}>
+        <{foreach from=$nodeback item=vo key=key}>
+            <dt><{$vo.module_name}></dt>
+            <dd>
+                <{if isset($vo.children) and $vo.children}>
+                    <{foreach from=$vo.children item=vv key=key}>
+                        <label><input name="nid[]" type="checkbox" value="<{$vv.nid}>" <{if isset($vv['active']) and $vv['active'] eq 1}>checked<{/if}>><{$vv.module_name}></label>
+                    <{/foreach}>
+                 <{/if}>
+            </dd>
+        <{/foreach}>
+    <{/if}>
+    <dd class="center">
+        <input type="hidden" id='rid' value="<{$rid}>">
+        <input type="button" class="btn_b mr10" value="确定" onclick="doAuthRoleListsh();">
+        <input type="button" class="btn_w" value="取消" onclick="ui.box.close()">
+    </dd>
+</dl>
+ </div>
+
+ 

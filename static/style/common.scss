@@ -1,0 +1,1259 @@
+@charset "utf-8";
+@import "u";
+@import "variables";
+@import "base";
+
+//重置
+@include reset;
+body{
+    font-family: $font-fm;
+    min-width: 1000px;
+}
+
+%comWidth{
+    width:$page-width;
+    @include center-block;
+}
+//头部
+.header{
+    height: $head-height;
+    background-color: $gray;
+    @at-root &_cont{
+        @extend %comWidth;
+        font:#{$font-sm}/#{$head-height} $font-fm;
+        @extend %clearfix;
+    }
+    h3{
+        @extend %float;
+        font-weight: normal;
+    }
+    @at-root .login_reg{
+        @include float(right);
+        span{
+            padding:0 10px;
+        }
+        a{
+            color:$default-color;
+            &:hover{
+                color:$blue;
+            }
+        }
+    }
+}
+//logo
+.g_logo{
+    @extend %comWidth;
+    padding:20px 0;
+	@extend %clearfix;
+}
+.logo{
+	width: 80px;
+	height: 80px;
+	background: url(../images/logo.png) center center no-repeat;
+	float: left;
+	a{
+		display: block;
+		height: 100%;
+		text-indent: -999em;
+	}
+}
+//导航
+.g_nav{
+    background-color: $blue;
+    @at-root .nav{
+        @extend %comWidth;
+        font:#{$font-sm + 2}/#{$nav-height} $font-fm;
+        height: $nav-height;
+        position: relative;
+        z-index: 1;
+        border-left: solid 1px $blue-active;
+        $pt_drop:10px;
+        li{
+            @include float;
+            position: relative;
+            border-right: solid 1px $blue-active;
+            margin-left: -1px;
+        }
+        .nav_dropdown{
+            position: absolute;
+            left:0;
+            top: $nav-height;
+            padding-top: $pt_drop;
+            white-space:nowrap;
+            dl{
+                background-color: $blue;
+                @include prefixer(border-radius, 4px, webkit moz);
+                overflow: hidden;
+            }
+            @at-root .triangle{
+                $trian_size:6px;
+                position: absolute;
+                left:25px;
+                top: -$trian_size * 2 + $pt_drop;
+                @include triangle(bottom,$trian_size,$blue);
+            }
+            a{
+                display: block;
+            }
+        }
+        a{
+            color:#FFF;
+            display: inline-block;
+            padding:0 20px;
+            @include prefixer(transition, all ease .3s, webkit moz ms);
+
+            .trian{
+                display: block;
+                $trian_size:4px;
+                position: absolute;
+                right:10px;
+                top: 19px;
+                @include triangle(top,$trian_size,#EEF0F5);
+            }
+            &:hover{
+                @extend %hover;
+            }
+        }
+        .dropLink{
+            padding:0 25px 0 15px;
+        }
+        .active{
+            @extend %hover;
+        }
+        %hover{
+            background-color: $blue-active;
+        }
+
+    }
+}
+//内容大小
+.g_main{
+    @extend %comWidth;
+    @extend %clearfix;
+    padding-top: 20px;
+}
+.leftArea{
+    width:$lw;
+    @include float;
+}
+.rightArea{
+    width:$rw;
+    @include float(right);
+}
+//banner
+.banner{
+    $h:320px;
+    width:$lw;
+    height: $h;
+    position: relative;
+    overflow: hidden;
+
+    @at-root &_img{
+        position: absolute;
+        left:0; top: 0;
+        // width:$lw * 4;
+        
+        li{
+            // float: left;
+            position: absolute;
+            left:0; top: 0;
+            opacity:0;
+            filter:alpha(opacity=0);
+        }
+        .active{
+            opacity:1;
+            filter:alpha(opacity=100);
+        }
+        img{
+            width:$lw;
+            height: $h;
+        }
+    }
+    .prev,
+    .next{
+        $w:38px;
+        width:$w;
+        height: $w;
+        position: absolute;
+        top: 50%;
+        margin-top: -$w / 2;
+        z-index: 1;
+        background-repeat: no-repeat;
+        background-image: url(../images/banner_tab.png);
+    }
+    .u-bg{
+        background-color: #000;
+        opacity:.5;
+        filter:alpha(opacity=50);
+    }
+    .u-bg,.number{
+        height: 30px;
+        line-height: 30px;
+        color:#FFF;
+        position: absolute;
+        left:0; bottom:0;
+        width:100%;
+    }
+    .number{
+        &_text{
+            padding-left: 10px;
+            float: left;
+            h3{
+                display: none;
+                height: 30px;
+                line-height: 30px;
+            }
+            .active{
+                display: block;
+            }
+        }
+        &_now{
+            float: right;
+            font-size: 0;
+            padding:3px 10px 3px 0;
+            height: 24px;
+            a{
+                display: inline-block;
+                font-size: 14px;
+                width:24px;
+                height: 24px;
+                line-height: 24px;
+                text-align: center;
+                color:#FFF;
+            }
+            .active{
+                background-color: $blue;
+            }
+        }
+    }
+    $lr-pos:20px;
+    .prev{
+        left:$lr-pos;
+        background-position: 0 0;
+    }
+    .next{
+        right:$lr-pos;
+        background-position: -46px 0;
+    }
+}
+//返回顶部
+.backTop{
+    width:38px;
+    height: 38px;
+    background: url(../images/top.gif) left top no-repeat;
+    position: fixed;
+    right:30px;
+    bottom:50px;
+    cursor: pointer;
+    _position: absolute;
+    _top: expression(document.documentElement.scrollTop + Math.round(document.documentElement.offsetHeight - 50 * 2) + "px"); 
+}
+//全局标题或选项卡切换
+.tabBox{
+     $pills_height:26px;
+     height: $pills_height;
+     border-bottom: solid 2px #BBB7B7;
+    .tab_pills{
+        height: $pills_height;
+        float: left;
+        li{
+            float: left;
+            margin-right: 10px;
+        }
+        .active{
+            border-bottom: solid 2px $blue;
+            margin-bottom: -2px;
+            position: relative;
+            a:hover{
+                color:$default-color;
+            }
+        }
+        a{
+            display: inline-block;
+            height: 26px;
+            float: left;
+            line-height: 1;
+            color:$default-color;
+            @include prefixer(transition, all ease .3s, webkit moz ms);
+            &:hover{
+                color:$blue;
+            }
+        }
+    }
+    .tabMore{
+        float: right;
+        font-size: 12px;
+     line-height: $pills_height - 4;
+    }
+}
+
+//捐款卡号
+.tpgy_sponsor{
+    padding:5px 0;
+}
+.sponsor_list{
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+    dd{
+        padding-left: 118px;
+        font-size: 12px;
+    }
+}
+//更多
+.sponsor_more{
+    padding:5px 0;
+}
+.icbc{background-image: url(../images/bank/icbc.jpg);}
+.ccb{background-image: url(../images/bank/ccb.jpg);}
+//太平公益动态
+.tpgy_dynamic{
+    padding:10px 0;
+    height: 272px;
+    li{
+        line-height: 26px;
+        height: 26px;
+        vertical-align: top;
+        @include ellipsis(100%);
+    }
+    a{
+        color:$default-color;
+        @include prefixer(transition, all ease .3s, webkit moz ms);
+        &:hover{
+            color: $blue;
+        }
+    }
+}
+//最新求助
+.turnList_item{
+    $spacing:15px;
+    $img_w:200px;
+    $img_h:130px;
+    padding:$spacing 0 $spacing + 5 0;
+    border-bottom: solid 1px #ccc;
+    h3{
+        font:22px/32px $font-fm;
+        margin-bottom: $spacing;
+        a{
+            color:$default-color;
+            @include prefixer(transition, all ease .3s, webkit moz ms);
+            &:hover{
+                color:$blue;
+            }
+        }
+    }
+    .turnList_text{
+        @extend %clearfix;
+        .turnList_img{
+            float: left;
+            width:$img_w;
+            height:$img_h;
+            position: relative;
+        }
+        img{
+            width:$img_w - 2;
+            height:$img_h - 2;
+            vertical-align: top;
+            border:solid 1px #ccc;
+        }
+        p{
+            padding-left: $img_w + $spacing;
+        }
+    }
+}
+//最新捐款事件
+.eventList{
+    $spacing:15px;
+    $img_w:120px;
+    $img_h:90px;
+    padding:$spacing 0;
+    @at-root .eventList_cont{
+        height: 90px;
+        margin-bottom: 26px;
+        dt{
+            width:$img_w;
+            height:$img_h;
+            float: left;
+            img{
+                width:$img_w - 2;
+                height:$img_h - 2;
+                border:solid 1px #ccc;
+                vertical-align: top;
+            }
+        }
+        dd{
+            padding-left: $img_w + 10px;
+        }
+        h3{
+            line-height: 1;
+            padding-top: 1px\9;
+            font-weight: bold;
+            margin-bottom: 5px;
+            a{
+                color:$default-color;
+                @include prefixer(transition, all ease .3s, webkit moz ms);
+                &:hover{
+                    color:$blue;
+                }
+            }
+        }
+        p{
+            font:12px/1.5 "宋体";
+            height: 50px;
+        }
+    }
+    &_sta{
+        @extend %clearfix;
+        font-size: 12px;
+        height: 20px;
+        span{
+            line-height: 20px;
+            height: 20px;
+            float: left;
+            em{
+                color:$blue;
+                font-weight: bold;
+            }
+        }
+        a{
+            float: right;
+            width:50px;
+            height: 20px;
+            line-height: 20px;
+            color: #fff;
+            text-align: center;
+            background-color: $blue;
+            @include prefixer(transition, all ease .3s, webkit moz ms);
+            &:hover{
+                background-color: $blue - 30;
+            }
+        }
+    }
+}
+//特别感谢
+.thankBox{
+    padding:15px 0;
+}
+.thank_list{
+    @extend %clearfix;
+    li{
+        width:108px;
+        height: 58px;
+        float: left;
+        margin-right: 10px;
+        border:solid 1px #ccc;
+        text-align: center;
+        position: relative;
+        margin-bottom: 8px;
+        span{
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+        img{
+            vertical-align: middle;
+        }
+        a{
+            position: absolute;
+            left:0; top: 0;
+            width:100%;
+            height: 100%;
+        }
+    }
+}
+.thank_link{
+    @extend %clearfix;
+    li{
+        float: left;
+        margin-right: 10px;
+    }
+    a{
+        color:$default-color;
+        &:hover{
+            color:$blue;
+        }
+    }
+}
+//底部
+.footer{
+    background-color: #1b253b;
+    line-height: 24px;
+    &_cont{
+        width:1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding:30px 0;
+        color: #b2bdd3;
+        @extend %clearfix;
+    }
+    &_contLeft{
+        width:700px;
+        float: left;
+    }
+    a{
+        color: #b2bdd3;
+        @include prefixer(transition, all ease .3s, webkit moz ms);
+        &:hover{
+            color:$blue;
+        }
+    }
+    span{
+        padding:0 5px;
+    }
+    p{
+        font-family: Verdana;
+    }
+}
+
+//遮罩层
+.shadow{
+    width:100%;
+    height: 100%;
+    position:fixed;
+    _position:absolute;
+    left:0; top: 0;
+    background-color: #000;
+    opacity: .5;
+    filter:alpha(opacity=50);
+    z-index: 2;
+}
+//弹出窗口
+.winBox{
+    $win-w:700px;
+    $win-h:400px;
+    $win-titile-h:40px;
+
+
+    width:$win-w;
+    height: $win-h;
+    position:fixed;
+    _position:absolute;
+    left:50%; top: 50%;
+    margin-left: -$win-w / 2;
+    margin-top: -$win-h / 2;
+    z-index: 3;
+    background-color: #fff;
+    @include prefixer(border-radius, 3px, webkit moz);
+    overflow: hidden;
+
+    @at-root .win_title{
+        height: $win-titile-h;
+        line-height: $win-titile-h;
+        background-color: #ECEEF1;
+        padding:0 $win-titile-h / 2;
+        h3{
+            font:14px/#{$win-titile-h} $font-fm;
+            float: left;
+        }
+        .winClose{
+            $clost-w:17px;
+            width:$clost-w;
+            height: $clost-w;
+            float: right;
+            margin-top:($win-titile-h - $clost-w) / 2;
+            background: url(../images/close.png) left top no-repeat;
+                @include prefixer(transform, rotate(0), webkit moz ms);
+                @include prefixer(transition, all ease .3s, webkit moz ms);
+            &:hover{
+                @include prefixer(transform, rotate(180deg), webkit moz ms);
+            }
+        }
+    }
+    @at-root .winCont{
+        height: $win-h - $win-titile-h;
+    }
+}
+//注册登陆
+.login_list{
+    $input-height:40px;
+    margin:0 50px;
+    padding-top: 40px;
+    li{
+        @extend %clearfix;
+        margin-bottom: 30px;
+    }
+    label{
+        width:130px;
+        height: $input-height;
+        line-height: $input-height;
+        margin-right: 10px;
+        float: left;
+        text-align: right;
+    }
+    @at-root .g-input{
+        height: $input-height - 2;
+        // line-height: #{$input-height - 2}\9;
+        line-height: 38px\9;
+        border:solid 1px $gray;
+        width:290px;
+        padding:0 6px;
+        float: left;
+    }
+    .forget_pass{
+        float: left;
+        height: $input-height;
+        line-height: $input-height;
+        padding-left: 15px;
+        a{
+            &:hover{
+                color:$blue;
+            }
+        }
+    }
+    @at-root .g-sm-btn{
+        text-align: center;
+        input{
+            height: 30px;
+            padding:0 20px;
+            font-family: $font-fm;
+            color:#FFF;
+            margin:0 10px;
+        }
+        .btn-y{
+            background-color: $blue;
+            &:hover{
+                background-color: $blue - 20;
+            }
+        }
+        .btn-n{
+            background-color: $gray - 30;
+            &:hover{
+                background-color: $gray - 40;
+            }
+        }
+    }
+}
+//关于我们
+.about{
+    margin-bottom: 30px;
+    .leftArea{
+        float: right;
+        width:740px;
+    }
+    .rightArea{
+        float: left;
+        width:230px;
+    }
+}
+//关于我们-左侧
+.about_nav{
+    padding:1em 0;
+    line-height: 1.5em;
+    a{
+        color:$default-color;
+        &:hover{
+            color:$blue;
+        }
+    }
+    .active{
+        color:$blue;
+        font-weight: bold;
+    }
+}
+.about_cont{
+    padding:10px 20px;
+    border:solid 1px $gray;
+    $about_text_lh:2em;
+    h3{
+        text-align: center;
+        border-bottom:solid 1px $gray;
+        padding-bottom: .8em;
+        font-weight: normal;
+    }
+    @at-root .about_text{
+        padding: 1em 0;
+        h4{
+            line-height: 2;
+        }
+        p{
+            line-height: $about_text_lh;
+        }
+    }
+    @at-root .recently_activities{
+        line-height: $about_text_lh;
+    }
+}
+//公益项目-详细介绍
+.piproject{
+    @extend %clearfix;
+    height: 2em;
+    line-height: 2em;
+    margin-top: 0.5em;
+    li{
+        float: left;
+        padding:0 10px;
+        cursor: default;
+    }
+    .active{
+        background-color: $gray;
+    }
+}
+.piproject_content{
+    padding:1em 10px;
+    border: solid 1px #ccc;
+    background-color: rgb(247, 247, 247);
+    @at-root .bg_gray{
+        padding:0 3px;
+        background-color: $gray;
+    }
+    @at-root .bg_yellow{
+        background-color: yellow;
+    }
+    p{
+        text-indent: 2em;
+        margin: 10px 0;
+    }
+}
+//捐助方式
+.donation{
+    padding:.5em 0;
+}
+.g_table{
+    border-collapse: collapse;
+    width:100%;
+    thead{
+        background-color: $gray + 20;
+        text-align: left;
+    }
+    th{
+        font-weight: normal;
+    }
+    td,th{
+        border:solid 1px $gray;
+        padding:5px;
+    }
+    img{
+        width:108px;
+        height: 28px;
+        vertical-align: top;
+    }
+}
+//照片及视频
+.video_photo{
+    @extend %clearfix;
+}
+.photo{
+    $r-w:332px;
+    $r-h:242px;
+    $l-w:314px;
+    $l-h:$r-h;
+    $sm-item:164px;
+    $sm-item-h:120px;
+    $m:2px;
+    @extend %clearfix;
+    margin-right: -$m * 2;
+    margin-bottom: $m;
+    &_left{
+        width:$l-w;
+        height: 240px;
+        float: left;
+        margin-right: $m;
+    }
+    &_right{
+        width:$r-w;
+        height:$r-h ;
+        float: left;
+        .g_item{
+            margin-right: $m;
+            margin-bottom: $m;
+        }
+    }
+    @at-root .g_item{
+        position: relative;
+        a{
+            width:100%;
+            height: 100%;
+            zoom:1;
+            position: absolute;
+            left:0; top: 0;
+            &:hover{
+                span{
+                    display: block;
+                }
+            }
+        }
+        img{
+            vertical-align: top;
+            width:100%; height: 100%;
+        }
+        .mask{
+            position: absolute;
+            left:0; top: 0;
+            width:100%;
+            height: 100%;
+            @include bgcolor-alpha;
+            display: none;
+        }
+        .play{
+            $w:48px;
+            width:$w;
+            height: $w;
+            position: absolute;
+            left:50%;
+            top: 50%;
+            margin-left: -$w / 2;
+            margin-top: -$w / 2;
+            background: url(../images/play.png) center center no-repeat;
+            display: none;
+        }
+    }
+    @at-root .g_big{
+        width:$l-w;
+        height:$l-h;
+    }
+    @at-root .g_sm{
+        width:$sm-item;
+        height: $sm-item-h;
+        float: left;
+    }
+}
+.video{
+    $m:22px;
+    $w:200px;
+    $h:108px;
+    @extend %clearfix;
+    margin-right: -$m;
+    .g_item{
+        width:$w;
+        height: $h;
+        float: left;
+        display: inline;
+        margin-right: $m;
+        margin-bottom: $m;
+    }
+}
+//内容
+.g_content{
+    padding:20px 0;
+}
+//志愿者
+.g_volunteer{
+    $c:#ccc;
+    border:solid 1px $c;
+    margin-bottom: 1em;
+    h3{
+        font-size: 14px;
+        font-weight: normal;
+        height: 2.6em;
+        line-height: 2.6;
+        padding:0 1em;
+        background-color: #E2E2E2;
+        border-bottom: solid 1px $c;
+    }
+    &_cont{
+        padding:.7em 1em;
+        line-height: 1.8;
+        p,dd{
+            text-indent: 2em;
+        }
+    }
+    &_btns{
+        padding-top: .6em;
+    }
+    &_info{
+        font-size: 14px;
+        line-height: 1.8;
+        padding-bottom: 1em;
+        dd{
+            padding-left: 1em;
+        }
+    }
+    @at-root .u_volunteer_btn{
+        $c:#2A9BFB;
+        display: inline-block;
+        background-color: $c;
+        color:#FFF;
+        height: 2.5em;
+        line-height: 2.5em;
+        font-size: 14px;
+        padding:0 2em;
+        @include prefixer(transition, all ease .3s, webkit moz ms);
+        &:hover{
+            color:#FFF;
+            background-color: $c - 20;
+        }
+    }
+}
+//透明监督
+.g_superv{
+    height: 400px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+}
+//留言板
+.suggestions{
+	$w:715px;
+	$m:20px;
+	.leftArea{
+		width: $w;
+	}
+	.rightArea{
+		width: $page-width - $w - $m;
+	}
+}
+.g_mess{
+    padding:20px 0;
+    $bgc:#F3F3F3;
+    li{
+        //margin-bottom: 1em;
+        background-color: #F7F7F7;
+        padding:10px 15px; 
+        //@include prefixer(border-radius, 5px, webkit moz);
+		border-bottom: solid 1px #ccc;
+    }
+    @at-root .g_user_time{
+        @extend %clearfix;
+        line-height: 2em;
+        h3{
+            float: left;
+        }
+        span{
+            float: right;
+            font-size: 12px;
+        }
+    }
+    @at-root .g_mess_leave{
+        margin-bottom: 10px;
+    }
+    @at-root .g_mess_reply{
+        position: relative;
+        margin-left: 20px;
+        background-color: #E6E6E6;
+        padding:4px 14px;
+        //@include prefixer(border-radius, 4px, webkit moz);
+        // $trian_size:5px;
+        // line-height: 0;
+        // .u_triangle{
+        //     @include triangle(bottom,$trian_size,$bgc);
+        // }
+    }
+	//发表留言
+	@at-root{
+		.publish_info{
+			padding-top: 10px;
+			li{
+				@extend %clearfix;
+				margin-bottom: 10px;
+			}
+		}
+		.publish_name{
+			width: ４0px;
+			float: left;
+			line-height: 28px;
+		}
+		//标题
+		.publist_inputs{
+			width: 200px;
+			padding: 0 5px;
+			float: right;
+			border:solid 1px #ccc;
+			$lh:26px;
+			height: $lh;
+			input{
+				width: 100%;
+				display: block;
+				height: $lh;
+				line-height: #{$lh}\9;
+				margin-bottom: -$lh;
+				position: relative;
+			}
+			span{
+				display: inline-block;
+				height: $lh;
+				line-height: $lh;
+				font-size: $font-sm;
+				display: none;
+			}
+		}
+		//留言内容
+		.publist_textarea{
+			width: 200px;
+			padding: 0 5px;
+			float: right;
+			border:solid 1px #ccc;
+			position: relative;
+			height: 80px;
+			$lh:26px;
+			textarea{
+				width: 100%;
+				display: block;
+				height: 80px;
+				line-height: 20px;
+				position: relative;
+			}
+			span{
+				position: absolute;
+				left: 5px;
+				top: 0;
+				line-height: $lh;
+				height: $lh;
+				display: none;
+			}
+		}
+		.publish_btn{
+			width:100%;
+			height: 2.5em;
+			font-size: $font-sm + 4;
+			font-family: $font-fm;
+			color: #FFF;
+			background-color: $blue;
+		}
+	} 
+}
+//发布求助页
+.select_title{
+	line-height: 3;
+}
+//求助选择
+.select_class{
+	@extend %clearfix;
+	li{
+		width:32%;
+		margin-right: 2%;
+		float: left;
+		height: 90px;
+		a{
+			height: 90px;
+			background-color: #D7D7D7;
+			display: block;
+			text-align: center;
+			color: #000;
+			position: relative;
+		}
+		span{
+			vertical-align: middle;
+			display: inline-block;
+		}
+		em{
+			height: 100%;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		i{
+			position: absolute;
+			right: 0; bottom: 0;
+			height: 18px;
+			line-height: 18px;
+			font-size: 12px;
+			padding: 0 5px;
+			background-color: #44BF44;
+			color: #FFF;
+			display: none;
+		}
+		a:hover,
+		.active{
+			background-color: #6CBBFF;
+			color: #FFF;
+		}
+		.active{
+			i{
+				display: block;
+			}
+		}
+	}
+	.select_last{
+		margin-right: 0;
+	}
+}
+//求助人信息
+.release_info{
+	padding: .5em 0;
+}
+.release_content{
+	padding: .5em 0;
+	li{
+		@extend %clearfix;
+		margin-bottom: 14px;
+		p{
+			line-height: 28px;
+			font-size: 12px;
+			float: left;
+		}
+	}
+}
+.release_name{
+	float: left;
+	padding-right: 10px;
+	height: 28px;
+	line-height: 28px;
+	width: 140px;
+	text-align: right;
+}
+.release_inputs{
+	$h:26px;
+	
+	height: $h;
+	border: solid 1px #ccc;
+	padding: 0 .5em;
+	width: 200px;
+	float: left;
+	margin-right: 20px;
+	@include prefixer(border-radius,2px,webkit moz);
+	
+	input{
+		width: 100%;
+		display: block;
+		float: left;
+		height: $h;
+		line-height: #{$h}\9;
+		font-family: $font-fm;
+	}
+}
+.w_auto{
+	width: auto;
+}
+.release_sex{
+	float: left;
+	margin-right: 20px;
+	label,input{
+		vertical-align: middle;
+		margin-right: 5px;
+	}
+	label{
+		margin-right: 10px;
+	}
+}
+.rel_select{
+	width: 216px;
+	height: 26px;
+	line-height: 26px;
+	border: solid 1px #ccc;
+	font-family: $font-fm;
+	float: left;
+	margin-right: 20px;
+}
+//填写按钮
+.release_btns{
+	text-align: center;
+	input{
+		height: 2em;
+		line-height: 2em;
+		padding: 0 2em;
+		font-family: $font-fm;
+		background-color: #6CBBFF;
+		color:#FFF;
+		font-family: 1.5em;
+		&:hover{
+			background-color: #6CBBFF - 20;
+		}
+	}
+}
+.release_auto{
+	.release_name{
+		float: none;
+		display: block;
+		width: auto;
+		text-align: left;
+	}
+	.release_inputs{
+		width: 80px;
+		@include prefixer(border-radius,2px,webkit moz);
+		background-color: #6CBBFF;
+		text-align: center;
+		color: #FFF;
+		border-color: #6CBBFF - 20;
+		position: relative;
+		line-height: 26px;
+		input{
+			position: absolute;
+			left:0;
+			top: 0;
+			width: 200px;
+			height: 100%;
+			opacity: 0.01;
+			filter:alpha(opacity=1);
+		}
+	}
+}
+.release_area{
+	padding: .5em 0;
+	h3{
+		font-weight: normal;
+		font-size: 12px;
+		margin-bottom: 10px;
+	}
+	@at-root .relTextArea{
+		border: solid 1px #ccc;
+		padding: 0 5px;
+		textarea{
+			height: 400px;
+			width: 100%;
+			font-family: $font-fm;
+			line-height: 24px;
+		}
+	}
+}
+//求助信息展示
+.release_main{
+	background-color: #F6F6F6;
+	border: solid 1px #ccc;
+	padding: 10px 20px;
+	h2{
+		margin-bottom: .5em;
+	}
+	@at-root{
+		.rel_info{
+			line-height: 2;
+			span{
+				margin-right: 40px;
+			}
+		}
+	}
+}
+.release_info_main{
+	p{
+		text-indent: 2em;
+		margin-bottom: 1em;
+	}
+}
+.release_info_pic{
+	h3{
+		margin-bottom: .5em;
+	}
+	p{
+		margin-bottom: 1em;
+	}
+	img{
+		max-width: 100%;
+		width: auto\9;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//公共样式
+.hide{display: none;}
+.show{display: block;}
+.hr_20{height: 20px;}
+.hr_10{height: 10px;overflow: hidden;}
+.ofh{overflow: hidden;}
+.ml-1{margin-left: -1px;}

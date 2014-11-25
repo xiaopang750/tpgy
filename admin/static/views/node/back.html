@@ -1,0 +1,168 @@
+<{include file='../header.html'}>
+
+<div class="so_main">
+  <!-------- 节点列表 -------->
+  <div class="page_tit">后台节点列表</div>
+  <div class="Toolbar_inbox">
+  	<div class="page right"><{$html}></div>
+	<a href="<{$addBackNode}>" class="btn_a"><span>添加节点</span></a>
+	<!-- <a href="javascript:void(0);" class="btn_a" onclick="deleteNode();"><span>删除节点</span></a> -->
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+		<!-- <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+    	<label for="checkbox"></label> -->
+	</th>
+    <!--<th class="line_l">ID</th>-->
+    <th class="line_l">应用名</th>
+    <th class="line_l">模块名</th>
+    <th class="line_l">方法名</th>
+    <th class="line_l">方法</th>
+    <th class="line_l">外链</th>
+    <th class="line_l">隐藏</th>
+    <th class="line_l">排序</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <{if $data}>
+  	<{foreach from=$data item=vo key=key}>
+	  <tr overstyle='on' id="node_<{$vo['nid']}>">
+	    <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="<{$vo.nid}>"></td>
+	    <!--<td>{$vo.id}</td>-->
+	    <td><{$vo.module_name}></td>
+		<td><{$vo.module}></td>
+	    <td><{$vo.action_name}></td>
+	    <td><{$vo.action}></td>
+	    <td><{if $vo.is_app_navi eq 0}>内链<{else}>外链<{/if}></td>
+	    <td id="hidden_<{$vo.nid}>"><{if $vo.ishidden eq 0}>显示<{else}>隐藏<{/if}></td>
+	    <td><{$vo.sort}></td>
+	   	<td>
+			<a href="<{$editBackNode}><{$vo.nid}>">编辑</a>
+	    	<a href="javascript:void(0);" onclick="deleteNode(<{$vo['nid']}>);">删除</a>
+	    	<a href="javascript:void(0);" onclick="backNodeStauts(<{$vo['nid']}>,1,this);"><{if $vo.ishidden eq 0}>隐藏<{else}>显示<{/if}></a>
+	    	
+		</td>
+	  </tr>
+  	<{/foreach}>
+  <{/if}>
+  </table>
+
+  </div>
+  <div class="list_btm">选择：<a href="javascript:void(0)">全部</a> - <a href="#">反选</a> - <a href="#">不选</a></div>
+  <div class="Toolbar_inbox">
+	<div class="page right"><{$html}></div>
+    <a href="<{$addBackNode}>" class="btn_a"><span>添加节点</span></a>
+	<!-- <a href="javascript:void(0);" class="btn_a" onclick="deleteNode();"><span>删除节点</span></a> -->
+  </div>
+</div>
+
+<script>
+	//鼠标移动表格效果
+	$(document).ready(function(){
+		$("tr[overstyle='on']").hover(
+		  function () {
+		    $(this).addClass("bg_hover");
+		  },
+		  function () {
+		    $(this).removeClass("bg_hover");
+		  }
+		);
+	});
+	
+	function checkon(o){
+		if( o.checked == true ){
+			$(o).parents('tr').addClass('bg_on') ;
+		}else{
+			$(o).parents('tr').removeClass('bg_on') ;
+		}
+	}
+	
+	function checkAll(o){
+		if( o.checked == true ){
+			$('input[name="checkbox"]').attr('checked','true');
+			$('tr[overstyle="on"]').addClass("bg_on");
+		}else{
+			$('input[name="checkbox"]').removeAttr('checked');
+			$('tr[overstyle="on"]').removeClass("bg_on");
+		}
+	}
+
+	//获取已选择的ID数组
+	function getChecked() {
+		var ids = new Array();
+		$.each($('table input:checked'), function(i, n){
+			ids.push( $(n).val() );
+		});
+		return ids;
+	}
+
+	//删除节点
+	function deleteNode(ids) {
+
+		var url = "<{$delBackNode}>";
+		var length = 0;
+		if(ids) {
+		    length = 1;         
+		}else {
+		    ids    = getChecked();
+		    length = ids.length;
+		    ids    = ids.toString();
+		}
+		if(ids=='') {
+		    ui.error('请先选择一个节点');
+		    return ;
+		}
+		if(ids == '' || !confirm('删除成功后将无法恢复，确认继续？')) return false;
+		
+		$.post(url, {ids:ids}, function(res){
+			if(res.state == '20000') {
+				ids = ids.toString().split(',');
+				for(i = 0; i < ids.length; i++) {
+					$('#node_'+ids[i]).remove();
+				}
+				ui.success(res.msg);
+			}else {
+				ui.error(res.msg);
+			}
+		},'json');
+	}
+	
+	/*//搜索用户
+	var isSearchHidden = <neq name="type" value="searchUser">1<else/>0</neq>;
+	function searchUser() {
+		if(isSearchHidden == 1) {
+			$("#searchUser_div").slideDown("fast");
+			$(".searchUser_action").html("搜索完毕");
+			isSearchHidden = 0;
+		}else {
+			$("#searchUser_div").slideUp("fast");
+			$(".searchUser_action").html("搜索用户");
+			isSearchHidden = 1;
+		}
+	}*/
+	/**
+	 *@author liuguangping
+	 *@parma int nid
+	 *@parma int type 1是否隐藏 2是否可见
+	 **/
+	function backNodeStauts(nid,type,vb){
+		var url = "<{$backNodeStatus}>";
+		$.post(url,{nid:nid,type:type},function(res){
+
+			if(type == 1){
+				$('#hidden_'+nid).html(res.data.mes);
+			}else if(type == 2){
+          		$('#guest_'+nid).html(res.data.mes);
+			}
+
+			if(res.state == 20000){
+				$(vb).html(res.data.domes);
+				ui.success(res.msg);
+			}else{
+				ui.error(res.msg);
+			}
+		},'json');
+	}
+</script>
+<{include file='../footer.html'}>

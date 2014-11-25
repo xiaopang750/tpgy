@@ -1,0 +1,140 @@
+<{include file='../header.html'}>
+<div class="so_main">
+  <div class="page_tit"><{if $types == 'edit'}>编辑节点<{else}>添加节点<{/if}></div>
+  
+  <form method="post" action="<{$dourl}>">
+  
+  <div class="form2">
+
+    <dl class="lineD">
+      <dt>所属节点：</dt>
+      <dd>
+        <select name="pid">
+            <option value="0"> - </option>
+            <{foreach from=$data item=vo key=key}>
+              <option value="<{$vo.nid}>" <{if isset($pid) and $vo.nid eq $pid}>selected<{/if}>><{$vo.module_name}></option>
+            <{/foreach}>
+        </select>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>应用名：</dt>
+      <dd>
+        <input name="module_name" type="text" value="<{if isset($module_name)}><{$module_name}><{/if}>"> *
+        <p>如: “博客”或“首页”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>模块名：</dt>
+      <dd>
+        <input name="module" type="text" value="<{if isset($module)}><{$module}><{/if}>"> *
+        <p>即Action名，如: “System”或“User”或“*”，“*”表示当前应用的所有模块</p>
+	  </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>方法名：</dt>
+      <dd>
+        <input name="action_name" type="text" value="<{if isset($action_name)}><{$action_name}><{/if}>">
+        <p>
+        	即Action类中的方法名，如: “deleteBlog”或“*”，“*”表示所有方法<br/>
+			注：当模块名为“*”时，方法名将被忽略；其它时必填
+		</p>
+	  </dd>
+    </dl>
+
+     <dl class="lineD">
+      <dt>方法：</dt>
+      <dd>
+        <input name="action" type="text" value="<{if isset($action)}><{$action}><{/if}>">
+        <p>
+          即Action类中的方法名，如: “deleteBlog”或“*”，“*”表示所有方法<br/>
+      注：当模块名为“*”时，方法名将被忽略；其它时必填
+    </p>
+    </dd>
+    </dl>
+
+     <dl class="lineD">
+      <dt>ico图标：</dt>
+      <dd>
+        <input name="ico" type="text" value="<{if isset($ico)}><{$ico}><{/if}>">
+        <p>
+    </p>
+    </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>是否隐藏：</dt>
+      <dd>
+        <label><input name="ishidden" type="radio" value="1" <{if !isset($ishidden) or $ishidden eq 1}>checked<{/if}>>隐藏</label>
+        <label><input name="ishidden" type="radio" value="0" <{if isset($ishidden) and $ishidden eq 0}>checked<{/if}>>显示</label>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>打开发式：</dt>
+      <dd>
+         <input name="target" type="text" value="<{if isset($target)}><{$target}><{/if}>"> *
+        <p>
+          _blank -- 在新窗口中打开链接</br>
+          _parent -- 在父窗体中打开链接 </br>
+          _self -- 在当前窗体打开链接,此为默认值 
+        </p>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>是否应用内部导航：</dt>
+      <dd>
+        <label><input name="is_app_navi" type="radio" value="1" <{if isset($is_app_navi) and $is_app_navi eq 1}>checked<{/if}>>外链</label>
+        <label><input name="is_app_navi" type="radio" value="0" <{if !isset($is_app_navi) or $is_app_navi eq 0}>checked<{/if}>>内链</label>
+    </dd>
+    </dl>
+    
+    <dl class="lineD" id='link' <{if !isset($is_app_navi) or $is_app_navi eq 0}>style="display:none;"<{/if}>>
+      <dt>外链地址：</dt>
+      <dd>
+        <input name="url" type="text" value="<{if isset($url)}><{$url}><{else}>http://<{/if}>">
+        <p></p>
+    </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>排序：</dt>
+      <dd>
+        <input name="sort" type="text" value="<{if isset($sort)}><{$sort}><{/if}>">
+        <p>
+          即菜单显示的先后顺序
+        </p>
+    </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="hidden" name='nid' value="<{if $nid }><{$nid}><{/if}>">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+  </div>
+  </form>
+</div>
+
+<script type="text/javascript">
+	var subNodeHtml = '<br/><input name="subAction[]" type="text" value="" style="margin-bottom:5px">&nbsp; ';
+	function addSubNode() {
+
+		$('#addSubNode').before(subNodeHtml);
+    
+	}
+
+  $("input[name='is_app_navi']").click(function(){
+     var is_app_navi = $(this).val();
+     if(is_app_navi == 1){
+        $("#link").show();
+     }else{
+        $("#link").hide();
+     }
+  });
+</script>
+
+<{include file='../header.html'}>

@@ -1,0 +1,158 @@
+<{include file='../header.html'}>
+<div class="so_main">
+  <div class="page_tit"><{if $types == 'edit'}>编辑节点<{else}>添加节点<{/if}></div>
+  
+  <form method="post" action="<{$dourl}>">
+  
+  <div class="form2">
+
+    <dl class="lineD">
+      <dt>所属节点：</dt>
+      <dd>
+        <select name="pid">
+            <option value="0"> - </option>
+            <{foreach from=$data item=vo key=key}>
+              <option value="<{$vo.aid}>" <{if isset($pid) and $vo.aid eq $pid}>selected<{/if}>><{$vo.aname}></option>
+            <{/foreach}>
+        </select>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>应用名：</dt>
+      <dd>
+        <input name="aname" type="text" value="<{if isset($aname)}><{$aname}><{/if}>"> *
+        <p>如: “博客”或“首页”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>模块名：</dt>
+      <dd>
+        <input name="aenname" type="text" value="<{if isset($aenname)}><{$aenname}><{/if}>"> *
+        <p>即Action名，如: “System”或“User”或“*”，“*”表示当前应用的所有模块</p>
+	  </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>方法名：</dt>
+      <dd>
+        <input name="defaultname" type="text" value="<{if isset($defaultname)}><{$defaultname}><{/if}>">
+        <p>
+        	即Action类中的方法名，如: “deleteBlog”或“*”，“*”表示所有方法<br/>
+			注：当模块名为“*”时，方法名将被忽略；其它时必填
+		</p>
+	  </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>是否隐藏：</dt>
+      <dd>
+        <label><input name="ishidden" type="radio" value="1" <{if !isset($ishidden) or $ishidden eq 1}>checked<{/if}>>隐藏</label>
+        <label><input name="ishidden" type="radio" value="0" <{if isset($ishidden) and $ishidden eq 0}>checked<{/if}>>显示</label>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>打开发式：</dt>
+      <dd>
+         <input name="target" type="text" value="<{if isset($target)}><{$target}><{/if}>"> *
+        <p>
+          _blank -- 在新窗口中打开链接</br>
+          _parent -- 在父窗体中打开链接 </br>
+          _self -- 在当前窗体打开链接,此为默认值 
+        </p>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>显示位置：</dt>
+      <dd>
+        <label><input name="showtype" type="radio" value="1" <{if !isset($showtype) or $showtype eq 1}>checked<{/if}>>top</label>
+
+        <label><input name="showtype" type="radio" value="2" <{if isset($showtype) and $showtype eq 2}>checked<{/if}>>butoom</label>
+
+         <label><input name="showtype" type="radio" value="3" <{if isset($showtype) and $showtype eq 3}>checked<{/if}>>both</label>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>类型：</dt>
+      <dd>
+        <select name="type">
+            <{foreach from=$typeCatetory item=vos key=keys}>
+              <option value="<{$keys}>" <{if isset($type) and $keys eq $type}>selected<{/if}>><{$vos}></option>
+            <{/foreach}>
+        </select>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>是否游客可见：</dt>
+      <dd>
+         <label><input name="guest" type="radio" value="1" <{if !isset($guest) or $guest eq 1}>checked<{/if}>>可见</label>
+        <label><input name="guest" type="radio" value="0" <{if isset($guest) and $guest eq 0}>checked<{/if}>>不可见</label>
+      </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>关键词：</dt>
+      <dd>
+        <input name="keywords" type="text" value="<{if isset($keywords)}><{$keywords}><{/if}>">
+        <p></p>
+	  </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>是否应用内部导航：</dt>
+      <dd>
+        <label><input name="islink" type="radio" value="1" <{if isset($islink) and $islink eq 1}>checked<{/if}>>外链</label>
+        <label><input name="islink" type="radio" value="0" <{if !isset($islink) or $islink eq 0}>checked<{/if}>>内链</label>
+    </dd>
+    </dl>
+    
+    <dl class="lineD" id='link' <{if !isset($islink) or $islink eq 0}>style="display:none;"<{/if}>>
+      <dt>外链地址：</dt>
+      <dd>
+        <input name="link" type="text" value="<{if isset($link)}><{$link}><{else}>http://<{/if}>">
+        <p></p>
+    </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>排序：</dt>
+      <dd>
+        <input name="sx" type="text" value="<{if isset($sx)}><{$sx}><{/if}>">
+        <p>
+          即菜单显示的先后顺序
+        </p>
+    </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="hidden" name='aid' value="<{if $aid }><{$aid}><{/if}>">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+  </div>
+  </form>
+</div>
+
+<script type="text/javascript">
+	var subNodeHtml = '<br/><input name="subAction[]" type="text" value="" style="margin-bottom:5px">&nbsp; ';
+	function addSubNode() {
+
+		$('#addSubNode').before(subNodeHtml);
+    
+	}
+
+  $("input[name='islink']").click(function(){
+     var islink = $(this).val();
+     if(islink == 1){
+        $("#link").show();
+     }else{
+        $("#link").hide();
+     }
+  });
+</script>
+
+<{include file='../header.html'}>

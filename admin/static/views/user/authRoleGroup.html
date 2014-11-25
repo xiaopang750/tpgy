@@ -1,0 +1,68 @@
+<style type="text/css" media="screen">
+    .pop-movegroup {
+        width: 400px;
+        color: #535353;
+        padding: 15px;
+        }
+
+    .pop-movegroup dd {
+        line-height: 18px;
+        padding: 0 0 10px;
+        overflow: hidden;
+        }
+    .center {
+        text-align: center;
+        }
+</style>
+
+
+<script type="text/javascript">
+
+
+  function doAuthRoleGroupsh(){
+        var url = "<{if isset($doRoleGroup)}><{$doRoleGroup}><{/if}>";
+        var gid = $('#gid').val();
+        var status = $("input[type=checkbox]:checked");
+		var len = status.length;
+		var expl = new Array();
+		for( var i=0;i<len;i++ ){
+			expl.push($(status[i]).val());
+		}
+		status = expl.join(',');
+        $.post(url,{gid:gid,status:status},function(res){
+            if(res.state == '20000'){
+                ui.success('角色分组成功！');
+                ui.box.close();
+                window.location.reload(true);
+                
+            }else{
+                ui.error('角色分组失败！');
+                ui.box.close();
+               window.location.reload(true);
+            }
+        },'json');
+    }
+ </script>
+
+<div  id='movegroup' class="pop-movegroup">
+<dl>
+    <dt>角色组：</dt>
+    <dd>
+        
+       <{if isset($role) and $role}>
+          <{foreach from=$role item=vo key=key}>
+            <label><input name="rid[]" type="checkbox" value="<{$vo.rid}>" <{if isset($vo['active']) and $vo['active']}>checked<{/if}>><{$vo.title}></label>
+        
+          <{/foreach}>
+        <{/if}>
+    
+    </dd>
+    <dd class="center">
+        <input type="hidden" id='gid' value="<{$gid}>">
+        <input type="button" class="btn_b mr10" value="确定" onclick="doAuthRoleGroupsh();">
+        <input type="button" class="btn_w" value="取消" onclick="ui.box.close()">
+    </dd>
+</dl>
+ </div>
+
+ 

@@ -1,0 +1,65 @@
+<{include file='../header.html'}>
+<div class="so_main">
+  <div class="page_tit"><{if isset($type) and $type eq 'edit'}>编辑用户<{else}>添加用户<{/if}></div>
+  <form method="post" action="<{if isset($action) and $action}><{$action}><{/if}>">
+  <div class="form2">
+    <dl class="lineD">
+      <dt>角色名：</dt>
+      <dd>
+        <input name="title" id="title" type="text" value="<{if isset($title)}><{$title}><{/if}>"><span>*</span>
+        <p>角色中文名</p>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>角色英文名：</dt>
+      <dd>
+         <input name="entitle" id="entitle" type="text" value="<{if isset($entitle)}><{$entitle}><{/if}>"><span>*</span>
+        <p>角色英文名</p>
+    </dl>
+
+  	<dl class="lineD">
+        <dt>用户状态：</dt>
+        <dd>
+          <label><input name="state" type="radio" value="-1" <{if !isset($state) or $state eq -1 or !$state}>checked<{/if}>>未通过</label>
+          <label><input name="state" type="radio" value="0" <{if isset($state) and $state eq 0}>checked<{/if}>>正常</label>
+          <label><input name="state" type="radio" value="1" <{if isset($state) and $state eq 1}>checked<{/if}>>待审核</label>
+          <label><input name="state" type="radio" value="2" <{if isset($state) and $state eq 2}>checked<{/if}>>草稿箱</label>
+      </dl>
+	 
+  	 <dl>
+        <dt>所属权限：</dt>
+        <dd>&nbsp;
+        </dd>
+
+      </dl>
+
+
+      <{if isset($nodeback) and $nodeback}>
+        <{foreach from=$nodeback item=vo key=key}>
+        <dl>
+            <dt><{$vo.module_name}></dt>
+            <dd>
+                <{if isset($vo.children) and $vo.children}>
+                    <{foreach from=$vo.children item=vv key=key}>
+                        <label><input name="nid[]" type="checkbox" value="<{$vv.nid}>" <{if isset($vv['active']) and $vv['active'] eq 1}>checked<{/if}>><{$vv.module_name}></label>
+                    <{/foreach}>
+                 <{else}>
+                  &nbsp;
+                 <{/if}>
+            </dd>
+          </dl>
+        <{/foreach}>
+      <{/if}>
+
+     
+
+
+	
+    <div class="page_btm">
+      <input type='hidden' name='rid' value='<{if isset($rid)}><{$rid}><{/if}>'>
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+  </div>
+  </form>
+</div>
+<{include file='../footer.html'}>

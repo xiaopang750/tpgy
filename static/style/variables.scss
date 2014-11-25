@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+//页面宽度
+$page-width:1000px;
+//左侧宽度
+$lw:645px;
+//右侧宽度
+$rw:320px;
+
+//字体大小
+$font-sm:12px;
+
+//微软雅黑
+$font-fm:"Microsoft Yahei","微软雅黑";
+
+//灰色-背景
+$gray:#DFDFDF;
+//蓝色-背景
+$blue:#2A9BFB;
+//蓝色-背景-active
+$blue-active:#005EAD;
+//默认链接色
+$default-color:#000;
+
+//顶部条高度
+$head-height:30px;
+
+//导航条高度
+$nav-height:40px;
+
+//网站层级
+// $elements:nav,shadow,winBox;
+
+// @mixin sanjiao($fx:top,$w:4px,$c:#ccc){
+    
+//     @if $fx == top{
+//         border-style: dashed dashed solid dashed;
+//         border-color: transparent transparent $c transparent;
+//     }
+//     @else if $fx == right{
+//         border-style: dashed dashed dashed solid;
+//         border-color: transparent transparent transparent $c;
+//     }
+//     @else if $fx == bottom{
+//         border-style: solid dashed dashed dashed;
+//         border-color: $c transparent transparent transparent;
+//     }
+//     @else if $fx == left{
+//         border-style: dashed solid dashed dashed;
+//         border-color: transparent $c transparent transparent;
+//     }
+//     border-width: $w;
+//     width:0; height: 0;
+//     overflow: hidden;
+// }

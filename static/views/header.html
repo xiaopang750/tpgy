@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页 - 太平公益官方网站</title>
+<link rel="stylesheet" href="<{$smarty.const.STATIC_ROOT}>style/common.css">
+<script src="<{$smarty.const.STATIC_ROOT}>js/tool.js" type="text/javascript"></script>
+<script src="<{$smarty.const.STATIC_ROOT}>js/ready.js" type="text/javascript"></script>
+<script src="<{$smarty.const.STATIC_ROOT}>js/nav.js" type="text/javascript"></script>
+<script src="<{$smarty.const.STATIC_ROOT}>js/banner.js" type="text/javascript"></script>
+<script src="<{$smarty.const.STATIC_ROOT}>js/move.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_cont">
+            <h3>太平公益(原名 红铅笔)，欢迎您</h3>
+            <div class="login_reg">
+                <a href="javascript:;">登陆</a><span>|</span><a href="#">注册</a>
+            </div>
+        </div>
+    </div>
+    <div class="g_logo">
+        <div class="logo"><a href="#">太平公益(原红铅笔)</a></div>
+    </div>
+
+    <div class="g_nav">
+        <ul class="nav">
+            <{foreach from=$menu.topMenu item=topMenu key=topKey name=tomu}>
+                <{if isset($topMenu.children) AND $topMenu.children}>
+                    <li>
+                        <a href="#" class="dropLink"><{$topMenu.aname}><i class="trian"></i></a>
+                        <div class="nav_dropdown hide">
+                            <i class="triangle"></i>
+                            <dl>
+                                 <{foreach from=$topMenu.children item=childTopMenu key=chiildTopKey name=cTomu}>
+                                    <dd>
+                                        <{if isset($topMenu.islink)}>
+                                            <{if $topMenu.islink eq 0}>
+                                                <a href="/<{$childTopMenu.aenname}>/<{$childTopMenu.defaultname}>"><{$childTopMenu.aname}></a>
+                                            <{else}>
+                                                <a href="<{$childTopMenu.link}>"><{$childTopMenu.aname}></a>
+                                            <{/if}>
+                                        <{/if}>
+                                    </dd>
+                                 <{/foreach}>
+                            </dl>
+                        </div>
+                    </li>
+                <{else}>
+                     <li>
+                        <{if isset($topMenu.islink)}>
+                            <{if $topMenu.islink eq 0}>
+                                <a href="/<{$topMenu.aenname}>/<{$topMenu.defaultname}>" <{if $topMenu.active}>class="active" <{/if}>><{$topMenu.aname}></a>
+                            <{else}>
+                                <a href="<{$topMenu.link}>" <{if $topMenu.active}>class="active" <{/if}>><{$topMenu.aname}></a>
+                            <{/if}>
+                        <{/if}>
+                    </li>
+                <{/if}>
+            <{/foreach}>
+                
+
+        </ul>
+    </div>
+    

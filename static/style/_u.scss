@@ -1,0 +1,91 @@
+@charset "utf-8";
+@mixin reset(){
+    *{margin: 0; padding:0;}
+    ul,ol{list-style: none;}
+    img{border: none;}
+    input,select,textarea{outline: none;border:none; background:none;}
+    textarea{resize: none;}
+    a{text-decoration: none;color: #0088cc;}
+    a:hover{color:#006699;}
+    em,i{font-style: normal;}
+    h1,h2,h3,h4,h5,h6{font-size: 1em;}
+    body{line-height: 1.5;font-size: 14px;line-height: 1.5;color: #333333;background-color: white;}
+    body { _background-image: url(busy); _background-attachment: fixed; }
+}
+//三角
+@mixin triangle($direction:top,$w:4px,$c:#ccc){
+    border-width: $w;
+    @if $direction == top{
+        border-style: solid dashed dashed dashed;
+        border-color: $c transparent transparent transparent;
+    }
+    @else if $direction == right{
+        border-style:dashed solid dashed dashed;
+        border-color:transparent  $c transparent transparent;
+    }
+    @else if $direction == bottom{
+        border-style: dashed dashed solid dashed;
+        border-color: transparent transparent $c transparent;
+    }
+    @else if $direction == left{
+        border-style: dashed dashed dashed solid;
+        border-color: transparent transparent transparent $c;
+    }
+    width:0;
+    height: 0;
+    overflow: hidden;
+}
+// border Radius
+@mixin radius($radius: 5px) {
+  -webkit-border-radius:$radius;
+  -moz-border-radius:$radius;
+  border-radius:$radius;
+}
+//inline-block
+@mixin inline-block {
+  display: inline-block;
+  *display: inline;*zoom:1;
+}
+%inline-block{
+  @include inline-block;
+}
+//居中
+@mixin center-block {
+  margin-left: auto;
+  margin-right: auto;
+}
+%center-block{
+  @include center-block;
+}
+// float left & right
+@mixin float($float:left) {
+  float: $float;
+  *display: inline;
+}
+%float{
+  @include float;
+}
+// 闭合子元素的浮动
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+  *zoom: 1;
+}
+%clearfix{
+  @include clearfix;
+}
+//黑色背景色半透明
+@mixin bgcolor-alpha($bgcolor: rgba(0,0,0,.5)){
+   filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#{ie-hex-str($bgcolor)}', endColorstr='#{ie-hex-str($bgcolor)}');
+  background-color:$bgcolor;
+  @at-root :root & {filter:none;}
+}
+%bgcolor-alpha{
+  @include bgcolor-alpha;
+}

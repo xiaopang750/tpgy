@@ -1,0 +1,172 @@
+<{include file='../header.html'}>
+
+<div class="so_main">
+  <!-------- 节点列表 -------->
+  <div class="page_tit">前台节点列表</div>
+  <div class="Toolbar_inbox">
+  	<div class="page right"><{$html}></div>
+	<a href="<{$addForeNode}>" class="btn_a"><span>添加节点</span></a>
+	<!-- <a href="javascript:void(0);" class="btn_a" onclick="deleteNode();"><span>删除节点</span></a> -->
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+		<!-- <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+    	<label for="checkbox"></label> -->
+	</th>
+    <!--<th class="line_l">ID</th>-->
+    <th class="line_l">应用名</th>
+    <th class="line_l">模块名</th>
+    <th class="line_l">方法名</th>
+    <th class="line_l">外链</th>
+    <th class="line_l">隐藏</th>
+    <th class="line_l">类型</th>
+    <th class="line_l">游客可见</th>
+    <th class="line_l">排序</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <{if $data}>
+  	<{foreach from=$data item=vo key=key}>
+	  <tr overstyle='on' id="node_<{$vo['aid']}>">
+	    <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="<{$vo.aid}>"></td>
+	    <!--<td>{$vo.id}</td>-->
+	    <td><{$vo.aname}></td>
+		<td><{$vo.aenname}></td>
+	    <td><{$vo.defaultname}></td>
+	    <td><{if $vo.islink eq 0}>内链<{else}>外链<{/if}></td>
+	    <td id="hidden_<{$vo.aid}>"><{if $vo.ishidden eq 0}>显示<{else}>隐藏<{/if}></td>
+	    <td>
+	    	<{if $vo.type eq 0}>个人<{elseif $vo.type eq 1}>团体<{else}>太平公益<{/if}>
+	    </td>
+	    <td id="guest_<{$vo.aid}>"><{if $vo.guest eq 0}>不可见<{else}>可见<{/if}></td>
+	    <td><{$vo.sx}></td>
+	    <td>
+			<a href="<{$editForeNode}><{$vo.aid}>">编辑</a>
+	    	<a href="javascript:void(0);" onclick="deleteNode(<{$vo['aid']}>);">删除</a>
+	    	<a href="javascript:void(0);" onclick="foreNodeStauts(<{$vo['aid']}>,1,this);"><{if $vo.ishidden eq 0}>隐藏<{else}>显示<{/if}></a>
+	    	<a href="javascript:void(0);" onclick="foreNodeStauts(<{$vo['aid']}>,2,this);"><{if $vo.guest eq 0}>可见<{else}>不可见<{/if}></a>
+		</td>
+	  </tr>
+  	<{/foreach}>
+  <{/if}>
+  </table>
+
+  </div>
+  <div class="list_btm">选择：<a href="javascript:void(0)">全部</a> - <a href="#">反选</a> - <a href="#">不选</a></div>
+  <div class="Toolbar_inbox">
+	<div class="page right"><{$html}></div>
+    <a href="<{$addForeNode}>" class="btn_a"><span>添加节点</span></a>
+	<!-- <a href="javascript:void(0);" class="btn_a" onclick="deleteNode();"><span>删除节点</span></a> -->
+  </div>
+</div>
+
+<script>
+	//鼠标移动表格效果
+	$(document).ready(function(){
+		$("tr[overstyle='on']").hover(
+		  function () {
+		    $(this).addClass("bg_hover");
+		  },
+		  function () {
+		    $(this).removeClass("bg_hover");
+		  }
+		);
+	});
+	
+	function checkon(o){
+		if( o.checked == true ){
+			$(o).parents('tr').addClass('bg_on') ;
+		}else{
+			$(o).parents('tr').removeClass('bg_on') ;
+		}
+	}
+	
+	function checkAll(o){
+		if( o.checked == true ){
+			$('input[name="checkbox"]').attr('checked','true');
+			$('tr[overstyle="on"]').addClass("bg_on");
+		}else{
+			$('input[name="checkbox"]').removeAttr('checked');
+			$('tr[overstyle="on"]').removeClass("bg_on");
+		}
+	}
+
+	//获取已选择的ID数组
+	function getChecked() {
+		var ids = new Array();
+		$.each($('table input:checked'), function(i, n){
+			ids.push( $(n).val() );
+		});
+		return ids;
+	}
+
+	//删除节点
+	function deleteNode(ids) {
+
+		var url = "<{$delForeNode}>";
+		var length = 0;
+		if(ids) {
+		    length = 1;         
+		}else {
+		    ids    = getChecked();
+		    length = ids.length;
+		    ids    = ids.toString();
+		}
+		if(ids=='') {
+		    ui.error('请先选择一个节点');
+		    return ;
+		}
+		if(ids == '' || !confirm('删除成功后将无法恢复，确认继续？')) return false;
+		
+		$.post(url, {ids:ids}, function(res){
+			if(res.state == '20000') {
+				ids = ids.toString().split(',');
+				for(i = 0; i < ids.length; i++) {
+					$('#node_'+ids[i]).remove();
+				}
+				ui.success(res.msg);
+			}else {
+				ui.error(res.msg);
+			}
+		},'json');
+	}
+	
+	/*//搜索用户
+	var isSearchHidden = <neq name="type" value="searchUser">1<else/>0</neq>;
+	function searchUser() {
+		if(isSearchHidden == 1) {
+			$("#searchUser_div").slideDown("fast");
+			$(".searchUser_action").html("搜索完毕");
+			isSearchHidden = 0;
+		}else {
+			$("#searchUser_div").slideUp("fast");
+			$(".searchUser_action").html("搜索用户");
+			isSearchHidden = 1;
+		}
+	}*/
+	/**
+	 *@author liuguangping
+	 *@parma int aid
+	 *@parma int type 1是否隐藏 2是否可见
+	 **/
+	function foreNodeStauts(aid,type,vb){
+		var url = "<{$foreNodeStatus}>";
+		$.post(url,{aid:aid,type:type},function(res){
+
+			if(type == 1){
+				$('#hidden_'+aid).html(res.data.mes);
+			}else if(type == 2){
+          		$('#guest_'+aid).html(res.data.mes);
+			}
+
+			if(res.state == 20000){
+				$(vb).html(res.data.domes);
+				ui.success(res.msg);
+			}else{
+				ui.error(res.msg);
+			}
+		},'json');
+	}
+</script>
+<{include file='../footer.html'}>

@@ -1,0 +1,340 @@
+@charset "utf-8";
+/* CSS Document */
+/*定义全局*/
+body{
+	margin:0;
+	padding:0;
+	background: #EDEDED;
+	font-family: "微软雅黑";
+}
+
+/*清除默认样式*/
+h1,h2,h3,h4,dl,dt,dd,ul,li,p,img{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+/*head start*/
+.head-box{
+	width: 100%;
+	height: 48px;
+	background: url(../img/head-bg.jpg) repeat-x;
+}
+.head-box .head-con{
+	width: 97%;
+	height: 100%;
+	margin: 0 auto;
+}
+.head-box .head-con .logo-b{
+	width: 60%;
+	height: auto;
+	float: left;
+	margin-top: 8px;
+}
+.head-box .head-con .logo-b .logo_1{
+	width: 146px; 
+	height: 33px; 
+	float: left;
+	display: block;
+}
+.head-box .head-con .logo-b .logo_2{
+	width: 122px; 
+	height: 20px; 
+	line-height: 20px;
+	font-size: 14px;
+	font-family: "微软雅黑";
+	display: block;
+	float: left;
+	color: #fbfbfb;
+}
+.head-box .head-con .dot-r{
+	float: right;
+	width: 40%;
+	height: 25px;
+	margin-top: 12px;
+}
+.head-box .head-con .dot-r span{
+	display: block;
+	width: 50px;
+	height: 25px;
+	float: right;
+	overflow: hidden;
+}
+.head-box .head-con .dot-r span a{
+	text-align: center;
+	display: block;
+	width: 50px;
+	height: 25px;
+	position: relative;
+	color: #FCC006;
+}
+.head-box .head-con .dot-r span .a-zhuo::before{
+	content: "回桌面";
+	width: 50px;
+	height: 25px;
+	line-height: 25px;
+	position: absolute;
+	left: -3px;
+	top: 25px;
+	font-size: 12px;
+	transition:all 0.3s ease 0s;
+	text-align: center;
+}
+.head-box .head-con .dot-r span .a-zhuo:hover::before{
+	top: 0;
+}
+
+.head-box .head-con .dot-r span .a-si::before{
+	content: "系统消息";
+	width: 50px;
+	height: 25px;
+	line-height: 25px;
+	position: absolute;
+	left: -3px;
+	top: 25px;
+	font-size: 12px;
+	transition:all 0.3s ease 0s;
+	text-align: center;
+}
+.head-box .head-con .dot-r span .a-si:hover::before{
+	top: 0;
+}
+
+.head-box .head-con .dot-r span .a-bang::before{
+	content: "帮助";
+	width: 50px;
+	height: 25px;
+	line-height: 25px;
+	position: absolute;
+	left: -3px;
+	top: 25px;
+	font-size: 12px;
+	transition:all 0.3s ease 0s;
+	text-align: center;
+}
+.head-box .head-con .dot-r span .a-bang:hover::before{
+	top: 0;
+}
+
+.head-box .head-con .dot-r span .a-tui::before{
+	content: "退出";
+	width: 50px;
+	height: 25px;
+	line-height: 25px;
+	position: absolute;
+	left: -3px;
+	top: 25px;
+	font-size: 12px;
+	transition:all 0.3s ease 0s;
+	text-align: center;
+}
+.head-box .head-con .dot-r span .a-tui:hover::before{
+	top: 0;
+}
+
+/*head finish*/
+
+
+
+/*tree start*/
+.tree-box{
+	width: 298px;
+	background: url(../img/tree-bg.jpg) repeat-y;
+	overflow: hidden;
+	float: left;
+	height: 100%;
+}
+.tree-box .tree-main{
+	width: 99px;
+	height: auto;
+	float: left;
+}
+.tree-box .tree-main li{
+	color: #fff;
+	width: 99px; 
+	height: 97px;
+	cursor: pointer;
+	background: url(../img/border-b.jpg) repeat-x left bottom #424242;
+}
+.tree-box .tree-main li p{
+	width: 99px;
+	height: 95px;
+}
+.tree-box .tree-main .cur1 p{
+	width: 92px;
+	height: 95px;
+	float: left;
+	border-right: 7px solid #2f2f2f;
+}
+.tree-box .tree-main .cur1 a{
+	color: #00ccff;
+	display: block;
+}
+.tree-box .tree-main li a{
+	color: #fff;
+}
+.tree-box .tree-main li i{
+	display: block;
+	width: 92px;
+	height: 50px;
+	text-align: center;
+	padding-top: 15px;
+}
+.tree-box .tree-main li span{
+	display: block;
+	width: 92px;
+	height: 30px;
+	line-height: 30px;
+}
+.tree-box .tree-main li p span a{
+	font-size: 12px;
+	text-align: center;
+}
+
+
+.tree-box .tree-list{
+	width: 198px;
+	height: 100%;
+	float: left;
+}
+.tree-box .tree-list li{
+	width: 198px;
+	height: auto;
+	display: none;
+}
+.tree-box .tree-list .cur2{
+	display: block;
+}
+.tree-box .tree-list li span{
+	display: block;
+	width: 198px;
+	height: 67px;
+	background: url(../img/list-bg.jpg) repeat-x left bottom;
+}
+.tree-box .tree-list li span a{
+	height: 67px;
+	line-height: 67px;
+	padding-left: 34px;
+	font-size: 14px;
+	color: #666666;
+	display: block;
+	font-size: 14px;
+}
+.b{
+	width: 15px;
+	height: 15px;
+	background: url(../img/arrow.png) no-repeat;
+	display: block;
+	float: left;
+	margin: 27px 1px 0 0;
+}
+/*tree finish*/
+
+
+
+
+/*qqservice   start*/
+.qqservice{
+	width: 92px;
+	height: 100px;
+	position: fixed;
+	left: 5px;
+	bottom: 5px;
+}
+.qqservice .kefu{
+	width: 92px;
+	height: 22px;
+	margin-bottom: 12px;
+}
+.qqservice span{
+	display: block;
+	width: 92px;
+	height: 15px;
+	font-size: 12px;
+	margin: 5px auto;
+	color: #999;
+	text-align: center;
+}
+/*qqservice   finish*/
+
+
+
+/*contentRight start*/
+.contentRight{
+	overflow: hidden;
+	float: left;
+	width: 100%;
+	height: auto;
+}
+.contentRight .con-title{
+	width: 100%;
+	height: 67px;
+	background: url(../img/list-bg.jpg) repeat-x left bottom;
+}
+.contentRight .con-title .title-inner{
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	background: url(../img/abg.jpg) repeat-x;
+	padding: 10px 38px;
+	font-size: 20px;
+	color: #666;
+}
+.contentRight .con-title .title-inner .p-title{
+	width: 40%;
+	float: left;
+	font-size: 24px;
+}
+.contentRight .con-title .title-inner .p-title span{
+	display: inline-block;
+}
+.contentRight .con-title .title-inner .p-data{
+	width: 55%;
+	float: left;
+	text-align: right;
+	padding-right: 5%;
+}
+.contentRight .con-title .title-inner .p-data span{
+	display: inline-block;
+	font-size: 12px;
+	color: #999999;
+	padding-left: 12px;
+}
+.contentRight .con-title .title-inner .p-data span b{
+	padding: 0 5px;
+	color: #ffcc00;
+}
+.contentRight .con-title .title-inner .p-title i{
+	display: inline-block;
+	float: left;
+	margin-right: 20px;
+	color: #666;
+}
+#main{
+	height: 580px;
+	width: 100%;
+}
+/*contentRight finish*/
+
+
+
+
+/*guide start*/
+.guide{
+	width: 60px;
+	height: 60px;
+	background: rgba(0,0,0,0.7); 
+	position: absolute; 
+	left: 5px; 
+	top: 5px;
+	border-radius: 40px;
+	z-index: 1000;
+	color: #fff;
+	text-align: center;
+	display: none;
+	line-height: 30px;
+	font-size: 24px;
+	padding: 10px;
+}
+/*guide finish*/

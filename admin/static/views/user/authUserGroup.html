@@ -1,0 +1,68 @@
+<style type="text/css" media="screen">
+    .pop-movegroup {
+        width: 400px;
+        color: #535353;
+        padding: 15px;
+        }
+
+    .pop-movegroup dd {
+        line-height: 18px;
+        padding: 0 0 10px;
+        overflow: hidden;
+        }
+    .center {
+        text-align: center;
+        }
+</style>
+
+
+<script type="text/javascript">
+
+
+  function doAuthUserGroupsh(){
+        var url = "<{if isset($doUserGroup)}><{$doUserGroup}><{/if}>";
+        var uid = $('#uid').val();
+        var status = $("input[type=checkbox]:checked");
+		var len = status.length;
+		var expl = new Array();
+		for( var i=0;i<len;i++ ){
+			expl.push($(status[i]).val());
+		}
+		status = expl.join(',');
+        $.post(url,{uid:uid,status:status},function(res){
+            if(res.state == '20000'){
+                ui.success('分组成功！');
+                ui.box.close();
+                window.location.reload(true);
+                
+            }else{
+                ui.error('分组失败！');
+                ui.box.close();
+               window.location.reload(true);
+            }
+        },'json');
+    }
+ </script>
+
+<div  id='movegroup' class="pop-movegroup">
+<dl>
+    <dt>用户组：</dt>
+    <dd>
+        
+       <{if isset($group) and $group}>
+          <{foreach from=$group item=vo key=key}>
+            <label><input name="gid[]" type="checkbox" value="<{$vo.gid}>" <{if isset($vo['active']) and $vo['active']}>checked<{/if}>><{$vo.title}></label>
+        
+          <{/foreach}>
+        <{/if}>
+    
+    </dd>
+    <dd class="center">
+        <input type="hidden" id='uid' value="<{$uid}>">
+        <input type="button" class="btn_b mr10" value="确定" onclick="doAuthUserGroupsh();">
+        <input type="button" class="btn_w" value="取消" onclick="ui.box.close()">
+    </dd>
+</dl>
+ </div>
+
+ 
