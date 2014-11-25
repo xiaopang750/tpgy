@@ -1,15 +1,15 @@
-<?php /*%%SmartyHeaderCode:8305473cfbb09bf07-50509332%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:15382547445ce588b39-30069891%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '8deb622c75ce858ef011992da44daa5bbd1a7d7a' => 
     array (
       0 => 'D:\\wamp\\Apache2.2\\www\\tpgy\\admin\\static\\views\\admin\\login.html',
-      1 => 1414998776,
+      1 => 1416905979,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '8305473cfbb09bf07-50509332',
+  'nocache_hash' => '15382547445ce588b39-30069891',
   'variables' => 
   array (
     'title' => 0,
@@ -18,10 +18,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.18',
-  'unifunc' => 'content_5473cfbb1606d3_22380798',
+  'unifunc' => 'content_547445ce73c081_38655597',
   'cache_lifetime' => 3600,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5473cfbb1606d3_22380798')) {function content_5473cfbb1606d3_22380798($_smarty_tpl) {?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php if ($_valid && !is_callable('content_547445ce73c081_38655597')) {function content_547445ce73c081_38655597($_smarty_tpl) {?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

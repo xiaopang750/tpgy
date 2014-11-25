@@ -12,7 +12,7 @@ class Admin extends BackController {
 	 * @version 2014/10/24
 	 */
 	public function index()
-	{
+	{echo "dddd";die;
 		$this->checklogin();
 		$this->Menu();
 		$this->seoMes('太平公益','太平公益');
